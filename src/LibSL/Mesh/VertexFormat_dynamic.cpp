@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------
+﻿/* --------------------------------------------------------------------
 Author: Sylvain Lefebvre    sylvain.lefebvre@sophia.inria.fr
 
 Simple Library for Graphics (LibSL)
@@ -145,7 +145,7 @@ void *NAMESPACE::MVF::attr(void *data,MVF::e_Type type,MVF::e_Binding binding,ui
 		throw Fatal("MVF::attr - attribute not found in MVF");
 	}
     sl_assert(a->binding == binding);
-	if (a->numComponents != nComp) {
+	if (a->numComponents != static_cast<int>(nComp)) {
 		throw Fatal("MVF::attr - attribute has incorrect number of components: %i",a->numComponents);
 	}
 	if (a->type != type) {
@@ -163,7 +163,7 @@ bool NAMESPACE::MVF::hasAttr(MVF::e_Type type,MVF::e_Binding binding,uint nComp)
 		return false;
 	}
 	sl_assert(a->binding == binding);
-	if (a->numComponents != nComp) {
+	if (a->numComponents != static_cast<int>(nComp)) {
 		return false;
 	}
 	if (a->type != type) {
