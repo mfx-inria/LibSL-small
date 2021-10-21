@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------
+﻿/* --------------------------------------------------------------------
 Author: Sylvain Lefebvre    sylvain.lefebvre@sophia.inria.fr
 
                   Simple Library for Graphics (LibSL)
@@ -189,6 +189,19 @@ namespace LibSL {
           if (m_Values[i] < tup[i]) {
             return true;
           } else if (m_Values[i] > tup[i]) {
+            return false;
+          }
+        }
+        return false;
+      }
+
+      // use three way comparison, currently a strange error forced the definition of
+      // this extra operators
+      bool operator > (const Tuple<T_Type,T_N>& tup) const {
+        ForIndex(i,T_N) {
+          if (m_Values[i] > tup[i]) {
+            return true;
+          } else if (m_Values[i] < tup[i]) {
             return false;
           }
         }
