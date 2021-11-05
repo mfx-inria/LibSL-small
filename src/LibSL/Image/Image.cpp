@@ -101,7 +101,7 @@ NAMESPACE::ImageFormat_plugin *
 NAMESPACE::ImageFormatManager::getPlugin(const char *signature) const
 {
   std::string ext=std::string(signature);
-  std::transform(ext.begin(),ext.end(), ext.begin(), tolower);
+  std::transform(ext.begin(), ext.end(), ext.begin(), [](char c) { return static_cast<char>(tolower(c)); });
    std::map<std::string,NAMESPACE::ImageFormat_plugin *>::const_iterator
     P=m_Plugins.find(ext);
   if (P == m_Plugins.end()) {

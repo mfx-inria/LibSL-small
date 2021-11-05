@@ -166,9 +166,9 @@ void NAMESPACE::ImageFormat_TGA::save(const char *name,const NAMESPACE::Image *i
   h.cm_depth         = 0;
   h.x_origin         = 0;
   h.y_origin         = 0;
-  h.width            = img->w();
-  h.height           = img->h();
-  h.pixel_depth      = img->numComp() * 8;
+  h.width            = static_cast<short>(img->w());
+  h.height           = static_cast<short>(img->h());
+  h.pixel_depth      = static_cast<uchar>(img->numComp()) * 8;
   h.image_descriptor = (1<<5);
   fwrite(&h,sizeof(struct tga_header_t),1,f);
   const uchar *data = img->raw();
