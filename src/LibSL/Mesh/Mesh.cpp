@@ -108,7 +108,7 @@ void NAMESPACE::TriangleMeshFormatManager::registerPlugin(TriangleMeshFormat_plu
 //---------------------------------------------------------------------------
 
 template<class charT> charT toLower(charT c) {
-  return tolower(c); // explicitely call one argument version of tolower
+  return static_cast<charT>(tolower(c)); // explicitely call one argument version of tolower
 }
 
 //---------------------------------------------------------------------------
@@ -214,15 +214,15 @@ void NAMESPACE::TriangleMesh::scaleToUnitCube(float scale,bool center)
     posAt(p)[2] = ((z-bx.minCorner()[2])/maxd);
   }
   if (center) {
-    v3 center = LibSL::Math::Triple(
+    v3 centre = LibSL::Math::Triple(
       (((bx.maxCorner()[0]+bx.minCorner()[0])/2.0f-bx.minCorner()[0])/maxd),
       (((bx.maxCorner()[1]+bx.minCorner()[1])/2.0f-bx.minCorner()[1])/maxd),
       (((bx.maxCorner()[2]+bx.minCorner()[2])/2.0f-bx.minCorner()[2])/maxd));
 
     ForIndex(p,numVertices()) {
-      posAt(p)[0] = posAt(p)[0]+0.5f-center[0];
-      posAt(p)[1] = posAt(p)[1]+0.5f-center[1];
-      posAt(p)[2] = posAt(p)[2]+0.5f-center[2];
+      posAt(p)[0] = posAt(p)[0]+0.5f- centre[0];
+      posAt(p)[1] = posAt(p)[1]+0.5f- centre[1];
+      posAt(p)[2] = posAt(p)[2]+0.5f- centre[2];
     }
   }
   m_BBoxComputed = false;
@@ -262,7 +262,7 @@ const AABox& NAMESPACE::TriangleMesh::bbox()
 
 //---------------------------------------------------------------------------
 
-void NAMESPACE::TriangleMesh::mergeVertices(float radius,uint gridsz)
+void NAMESPACE::TriangleMesh::mergeVertices(float radius,uint)
 {
   int        numv = (int)numVertices();
 
@@ -325,7 +325,7 @@ void NAMESPACE::TriangleMesh::mergeVertices(float radius,uint gridsz)
   // reorder vertices and truncate vertex array
   Array<uint> order(uint(used.size()));
   Array<uint> rank (numv);
-  rank.fill(-1);
+  rank.fill(static_cast<uint>(-1));
   uint n = 0;
   for(set<uint>::iterator I=used.begin() ; I!=used.end() ; I++) {
     order[n]    = (*I);

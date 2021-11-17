@@ -299,7 +299,7 @@ namespace LibSL {
             }
           }
           // no: append
-          m_StringBuffer[bufpos++] = c;
+          m_StringBuffer[bufpos++] = static_cast<char>(c);
         } while ( ! m_Stream.eof() );
         sl_assert(false); 
         return (NULL);

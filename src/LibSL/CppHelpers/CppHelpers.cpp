@@ -237,7 +237,7 @@ void NAMESPACE::Console::progressTextUpdate(uint cur)
     uint h  = ( tm/(1000*60*60));
     uint m  = ((tm/(1000*60)) % 60);
     uint s  = ((tm/1000)      % 60);
-    uint ms = tm % 1000;
+    //uint ms = tm % 1000;
 #if (defined(_WIN32) || defined(_WIN64)) && !defined(ESCAPE_SEQUENCES_ONLY)
     SetConsoleCursorPosition(GetStdHandle(STD_ERROR_HANDLE), s_ProgressTextCursorNfo.dwCursorPosition);
     std::cerr << sprint("%.2f%%\t (", percent);
@@ -271,7 +271,7 @@ void NAMESPACE::Console::progressTextEnd()
   uint h  = ( tm/(1000*60*60));
   uint m  = ((tm/(1000*60)) % 60);
   uint s  = ((tm/1000)      % 60);
-  uint ms = tm % 1000;
+  //uint ms = tm % 1000;
 #if (defined(_WIN32) || defined(_WIN64)) && !defined(ESCAPE_SEQUENCES_ONLY)
   SetConsoleCursorPosition(GetStdHandle(STD_ERROR_HANDLE), s_ProgressTextCursorNfo.dwCursorPosition);
   std::cerr << sprint("done in ");
