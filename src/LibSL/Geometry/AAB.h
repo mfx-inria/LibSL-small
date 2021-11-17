@@ -1,4 +1,4 @@
-/* --------------------------------------------------------------------
+﻿/* --------------------------------------------------------------------
 Author: Sylvain Lefebvre    sylvain.lefebvre@sophia.inria.fr
 
                   Simple Library for Graphics (LibSL)
@@ -50,7 +50,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <LibSL/Math/Tuple.h>
 #include <LibSL/Math/Math.h>
 //#include <LibSL/Geometry/Plane.h>
-//#include <LibSL/Math/Matrix4x4.h>
+#include <LibSL/Math/Matrix4x4.h>
 
 #include <limits>
 
@@ -239,6 +239,24 @@ namespace LibSL {
     }
 
 
+    template<typename T_Type>
+    inline static AAB<3,T_Type> operator*(const LibSL::Math::Matrix4x4<T_Type>& tr, const AAB<3,T_Type>& bx)
+    {
+      using vec3 = LibSL::Math::Tuple<T_Type, 3>;
+
+      AAB<3,T_Type> bbox;
+      if (!bx.empty()) {
+        bbox.addPoint(tr.mulPoint(vec3(bx.minCorner()[0], bx.minCorner()[1], bx.minCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.minCorner()[0], bx.minCorner()[1], bx.maxCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.minCorner()[0], bx.maxCorner()[1], bx.minCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.minCorner()[0], bx.maxCorner()[1], bx.maxCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.maxCorner()[0], bx.minCorner()[1], bx.minCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.maxCorner()[0], bx.minCorner()[1], bx.maxCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.maxCorner()[0], bx.maxCorner()[1], bx.minCorner()[2])));
+        bbox.addPoint(tr.mulPoint(vec3(bx.maxCorner()[0], bx.maxCorner()[1], bx.maxCorner()[2])));
+      }
+      return bbox;
+    }
   } //namespace LibSL::Geometry
 } //namespace LibSL
 
