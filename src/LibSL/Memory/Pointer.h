@@ -352,12 +352,12 @@ namespace LibSL  {
       {
       public:
 
-        AutoPtr() : Pointer() { }
+        AutoPtr() : Pointer<T_Type, CheckValid, TransferRefCountUInt>::Pointer() { }
 
 #ifdef LIBSL_IDKFK // power user only
         AutoPtr(const typename Pointer::t_RawPointer& raw) : Pointer(raw)  { }
 #else
-        explicit AutoPtr(const typename Pointer::t_RawPointer& raw) : Pointer(raw)  { }
+        explicit AutoPtr(const typename Pointer<T_Type, CheckValid, TransferRefCountUInt>::t_RawPointer& raw) : Pointer<T_Type, CheckValid, TransferRefCountUInt>(raw)  { }
 #endif
 
         AutoPtr(const AutoPtr& ptr) : Pointer(ptr)  { }
@@ -381,7 +381,7 @@ namespace LibSL  {
 
         SafePtr() : Pointer() { }
 
-        SafePtr(const typename Pointer::t_RawPointer& raw) : Pointer(raw) { }
+        SafePtr(const typename Pointer<T_Type, CheckValid, TransferAddress>::t_RawPointer& raw) : Pointer(raw) { }
 
         SafePtr(const SafePtr& ptr) : Pointer(ptr) { }
 
@@ -389,8 +389,8 @@ namespace LibSL  {
 
         void erase() { if (!Pointer::isNull()) { delete (Pointer::raw()); (*this) = NULL; } }
 
-        operator typename Pointer::t_RawPointer() { return (raw()); }
-        operator T_Type * const () const          { return (raw()); }
+        operator typename Pointer<T_Type, CheckValid, TransferAddress>::t_RawPointer() { return (Pointer<T_Type, CheckValid, TransferAddress>::raw()); }
+        operator T_Type * const () const          { return (Pointer<T_Type, CheckValid, TransferAddress>::raw()); }
       };
 
 #else // g++
