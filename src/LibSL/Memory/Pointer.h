@@ -53,7 +53,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <LibSL/CppHelpers/CppHelpers.h>
 
 #include <LibSL/System/Types.h>
-using namespace LibSL::System::Types;
+//using namespace LibSL::System::Types;
 
 // #include <atomic>
 
@@ -75,7 +75,7 @@ namespace LibSL  {
       class CheckValid
       {
       public:
-        static void checkValid(void *p) {if (p==NULL) LIBSL_FATAL_ERROR("Invalid pointer !");}
+        static void checkValid(void *p) {if (p==nullptr) LIBSL_FATAL_ERROR("Invalid pointer !");}
       };
 
       // ===============
@@ -88,14 +88,14 @@ namespace LibSL  {
         TransferAddress(T_Type *) {}
         void transferFrom(
           T_Type                       **dst,
-          const TransferAddress<T_Type> *policy_src,
+          const TransferAddress<T_Type> */*policy_src*/,
           T_Type                        *src)     { *dst=src; }
         template <typename T_Type2>
         void transferCastFrom(
           T_Type                        **dst,
-          const TransferAddress<T_Type2> *policy_src,
+          const TransferAddress<T_Type2> */*policy_src*/,
           T_Type2                        *src)     { *dst=dynamic_cast<T_Type*>(src); }
-        void release(T_Type **ptr)               {  }
+        void release(T_Type **/*ptr*/)               {  }
       };
 
       template <typename T_Type> class TransferClone
@@ -105,14 +105,14 @@ namespace LibSL  {
         TransferClone(T_Type *) {}
         void transferFrom(
           T_Type                     **dst,
-          const TransferClone<T_Type> *policy_src,
-          T_Type                      *src)        { if ( src != NULL) {*dst=new T_Type(*src);   } else {*dst=NULL;} }
+          const TransferClone<T_Type> */*policy_src*/,
+          T_Type                      *src)        { if ( src != nullptr) {*dst=new T_Type(*src);   } else {*dst=nullptr;} }
         template <typename T_Type2>
         void transferCastFrom(
           T_Type                     **dst,
-          const TransferClone<T_Type2> *policy_src,
-          T_Type2                      *src)       { if ( src != NULL) {*dst=new T_Type(*src);   } else {*dst=NULL;} }
-        void release(T_Type **ptr)                 { if (*ptr != NULL) {delete (*ptr); *ptr=NULL;} }
+          const TransferClone<T_Type2> */*policy_src*/,
+          T_Type2                      *src)       { if ( src != nullptr) {*dst=new T_Type(*src);   } else {*dst=nullptr;} }
+        void release(T_Type **ptr)                 { if (*ptr != nullptr) {delete (*ptr); *ptr=nullptr;} }
       };
 
       template <typename T_Type,typename T_CounterType,uint T_CounterMaxValue> class TransferRefCount
@@ -124,17 +124,17 @@ namespace LibSL  {
 
         TransferRefCount()
         {
-          m_Counter = NULL;
+          m_Counter = nullptr;
         }
 
         TransferRefCount(T_Type *ptr)
         {
-          if (ptr != NULL) {
+          if (ptr != nullptr) {
             // allocate a new counter initialized to 1
             // m_Counter = new std::atomic<T_CounterType>(1);
             m_Counter = new T_CounterType(1);
           } else {
-            m_Counter = NULL;
+            m_Counter = nullptr;
           }
         }
 
@@ -144,11 +144,11 @@ namespace LibSL  {
           T_Type                          *src)
         {
           *dst = src;
-          if (policy_src->m_Counter == NULL) {
-            sl_assert(src == NULL);
+          if (policy_src->m_Counter == nullptr) {
+            sl_assert(src == nullptr);
           }
           m_Counter = policy_src->m_Counter;
-          if (m_Counter != NULL) {
+          if (m_Counter != nullptr) {
             if ((*m_Counter) == T_CounterMaxValue) {
               throw LibSL::Errors::Fatal("TransferRefCount - instance counter reached its maximum value!");
             }
@@ -165,11 +165,11 @@ namespace LibSL  {
         {
           *dst = dynamic_cast<T_Type*>(src); // NOTE: forced to use dynamic_cast in case of virtual
                                              // inheritance. Possibly add a policy for this.
-          if (policy_src->m_Counter == NULL) {
-            sl_assert(src == NULL);
+          if (policy_src->m_Counter == nullptr) {
+            sl_assert(src == nullptr);
           }
           m_Counter = policy_src->m_Counter;
-          if (m_Counter != NULL) {
+          if (m_Counter != nullptr) {
             if ((*m_Counter) == T_CounterMaxValue) {
               throw LibSL::Errors::Fatal("TransferRefCount - instance counter reached its maximum value!");
             }
@@ -180,26 +180,26 @@ namespace LibSL  {
 
         void release(T_Type **ptr)
         {
-          if (m_Counter == NULL) {
+          if (m_Counter == nullptr) {
             //std::cerr << "RELEASE, m_Counter == NULL, *ptr = " << uint(*ptr) << std::endl;
-            sl_assert((*ptr) == NULL);
+            sl_assert((*ptr) == nullptr);
           } else {
             // decrement the counter
             (*m_Counter)--;
             // null test
             if ((*m_Counter) == 0) {
               delete (m_Counter);
-              m_Counter = NULL;
+              m_Counter = nullptr;
               // std::cerr << "RELEASE " << uint(*ptr) << std::endl;
-              sl_assert(  ptr  != NULL );
-              sl_assert((*ptr) != NULL );
+              sl_assert(  ptr  != nullptr );
+              sl_assert((*ptr) != nullptr );
               delete (*ptr);
-              (*ptr)    = NULL;
+              (*ptr)    = nullptr;
             }
           }
         }
 
-        uint refCount() const {if (m_Counter==NULL) return (0); else return (*m_Counter);}
+        uint refCount() const {if (m_Counter==nullptr) return (0); else return (*m_Counter);}
 
         /*
         void debug()
@@ -272,12 +272,12 @@ namespace LibSL  {
 
         Pointer() : t_Transfer()
         {
-          m_RawPointer = NULL;
+          m_RawPointer = nullptr;
         }
 
         Pointer(const Pointer& ptr) : t_Transfer()
         {
-          m_RawPointer = NULL;
+          m_RawPointer = nullptr;
           t_Transfer::transferFrom(
             &m_RawPointer,
             static_cast<const t_Transfer *>(&ptr),
@@ -288,7 +288,7 @@ namespace LibSL  {
         template <typename T_Type2,class P_Check2>
         explicit Pointer(const Pointer<T_Type2,P_Check2,P_Transfer>& ptr) : t_Transfer()
         {
-          m_RawPointer = NULL;
+          m_RawPointer = nullptr;
           t_Transfer::transferCastFrom(
             &m_RawPointer,
             static_cast<const P_Transfer<T_Type2> *>(&ptr),
@@ -326,8 +326,8 @@ namespace LibSL  {
         t_RawPointer raw()               { return (m_RawPointer); }
         t_RawPointer raw()         const { return (m_RawPointer); }
 
-        bool operator!()         const  { return (m_RawPointer == 0); }
-        bool isNull()            const  { return (m_RawPointer == 0); }
+        bool operator!()         const  { return (m_RawPointer == nullptr); }
+        bool isNull()            const  { return (m_RawPointer == nullptr); }
 
         /*
         void debug() { std::cerr

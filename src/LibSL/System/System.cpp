@@ -87,9 +87,9 @@ bool NAMESPACE::File::exists(const char *fname)
     return (PathFileExistsA(fname) != 0);
 # endif
 #else
-  FILE *f = NULL;
+  FILE *f = nullptr;
   f = fopen(fname,"rb");
-  if (f != NULL) {
+  if (f != nullptr) {
     fclose(f);
     return (true);
   } else {
@@ -102,9 +102,9 @@ bool NAMESPACE::File::exists(const char *fname)
 
 long NAMESPACE::File::size(const char *path)
 {
-  FILE *f = NULL;
+  FILE *f = nullptr;
   fopen_s(&f,path,"rb");
-  sl_assert(f != NULL);
+  sl_assert(f != nullptr);
   fseek(f,0,SEEK_END);
   long fsize = ftell(f);
   fclose(f);
@@ -135,11 +135,11 @@ void NAMESPACE::File::listFiles(const char *path,std::vector<std::string>& _file
   } while (FindNextFileA(find,&current));
 #else
   DIR *dir = opendir(path);
-  if (dir == NULL) {
+  if (dir == nullptr) {
     throw Fatal("File::listFiles - cannot list directory '%s'",path);
   }
-  struct dirent *dp = NULL;
-  while ((dp = readdir(dir)) != NULL) {
+  struct dirent *dp = nullptr;
+  while ((dp = readdir(dir)) != nullptr) {
       struct stat s;
       std::string full = path + std::string(dp->d_name);
       stat(full.c_str(),&s);
@@ -170,11 +170,11 @@ void NAMESPACE::File::listDirectories(const char *path,std::vector<std::string>&
   } while (FindNextFileA(find,&current));
 #else
   DIR *dir = opendir(path);
-  if (dir == NULL) {
+  if (dir == nullptr) {
     throw Fatal("File::listDirectories - cannot list directory '%s'",path);
   }
-  struct dirent *dp = NULL;
-  while ((dp = readdir(dir)) != NULL) {
+  struct dirent *dp = nullptr;
+  while ((dp = readdir(dir)) != nullptr) {
       struct stat s;
       std::string full = path + std::string(dp->d_name);
       stat(full.c_str(),&s);
@@ -367,16 +367,18 @@ NAMESPACE::Time::t_time NAMESPACE::Time::milliseconds()
 #else
 
   struct timeval        now;
+#if defined(_WIN32) || defined(_WIN64) // TODO: the following must be moved in System/Platform
   uint                  ticks;
+#endif
   static struct timeval start;
 
   static bool           init=false;
   if (!init) { // TODO / FIXME move into a global timer init ?
-    gettimeofday(&start, NULL);
+    gettimeofday(&start, nullptr);
     init=true;
   }
 
-  gettimeofday(&now, NULL);
+  gettimeofday(&now, nullptr);
   uint ms=uint((now.tv_sec-start.tv_sec)*1000+(now.tv_usec-start.tv_usec)/1000);
   return (ms);
 

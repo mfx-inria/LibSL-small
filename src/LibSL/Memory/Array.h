@@ -52,7 +52,7 @@ knowledge of the CeCILL-C license and that you accept its terms.
 #include <LibSL/System/Types.h>
 //#include <LibSL/Memory/TraceLeaks.h>
 #include <LibSL/Math/Tuple.h>
-using namespace LibSL::System::Types;
+//using namespace LibSL::System::Types;
 
 #include <vector>
 #ifdef max
@@ -100,10 +100,10 @@ namespace LibSL  {
       {
       public:
         enum {PerformCheck = true};
-        static inline void checkAllocation(const void *p) {if (p==NULL) LIBSL_FATAL_ERROR("Memory::Array - allocation failed");}
-        static inline void checkPointer(const void *p)    {if (p==NULL) LIBSL_FATAL_ERROR("Memory::Array - access violation");}
+        static inline void checkAllocation(const void *p) {if (p==nullptr) LIBSL_FATAL_ERROR("Memory::Array - allocation failed");}
+        static inline void checkPointer(const void *p)    {if (p==nullptr) LIBSL_FATAL_ERROR("Memory::Array - access violation");}
         static inline void checkAccess(int n,uint num)    {if (n < 0 || n >= int(num)) LIBSL_FATAL_ERROR("Memory::Array - access out of bounds");}
-        static inline void checkEmpty(const void *p)      {if (p!=NULL) LIBSL_FATAL_ERROR("Memory::Array - array already initialized");}
+        static inline void checkEmpty(const void *p)      {if (p!=nullptr) LIBSL_FATAL_ERROR("Memory::Array - array already initialized");}
       };
 
       // ===============
@@ -159,14 +159,14 @@ namespace LibSL  {
         {
           m_Size=0;
           m_AllocSize=0;
-          m_Data=NULL;
+          m_Data=nullptr;
         }
 
         Array(uint size)
         {
           m_Size=0;
           m_AllocSize=0;
-          m_Data=NULL;
+          m_Data=nullptr;
           allocate(size);
         }
 
@@ -174,7 +174,7 @@ namespace LibSL  {
         {
           m_Size=0;
           m_AllocSize=0;
-          m_Data=NULL;
+          m_Data=nullptr;
           allocate(vec.size());
           ForIndex(n,vec.size()) {
             if (P_Check::PerformCheck) P_Check::checkAccess(n,m_Size);
@@ -184,7 +184,7 @@ namespace LibSL  {
 
         ~Array(void)
         {
-          if (m_Data != NULL) {
+          if (m_Data != nullptr) {
             delete[] (m_Data);
           }
         }
@@ -192,9 +192,9 @@ namespace LibSL  {
         /// Erase the array
         void erase()
         {
-          if (m_Data != NULL) {
+          if (m_Data != nullptr) {
             delete[] (m_Data);
-            m_Data      = NULL;
+            m_Data      = nullptr;
             m_AllocSize = 0;
             m_Size      = 0;
           }

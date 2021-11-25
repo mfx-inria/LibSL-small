@@ -90,9 +90,9 @@ namespace LibSL {
       FileStream(const char *fname) 
       {
         m_EOF  = false;
-        m_File = NULL;
+        m_File = nullptr;
 				fopen_s(&m_File, fname, "rb");
-        if (m_File == NULL) {
+        if (m_File == nullptr) {
           throw LibSL::Errors::Fatal("LibSL::CppHelpers::FileStream - cannot open '%s'",fname);
         }
       }
@@ -224,7 +224,7 @@ namespace LibSL {
           if (m_Stream.eof()) {
             return (EOF);
           }
-        } while (strchr(delims,char(c)) == NULL);
+        } while (strchr(delims,char(c)) == nullptr);
         return (c);
       }
 
@@ -256,7 +256,7 @@ namespace LibSL {
         return (c);
       }
 
-      char *readString(const char *eos = NULL, const char *accepted = NULL)
+      char *readString(const char *eos = nullptr, const char *accepted = nullptr)
       {
         int bufpos = 0;
         m_StringBuffer[bufpos] = '\0';
@@ -273,8 +273,8 @@ namespace LibSL {
             m_StringBuffer[bufpos++] = '\0';
             return (m_StringBuffer.raw());
           } else {
-            if (eos == NULL) {
-              if (accepted == NULL) {
+            if (eos == nullptr) {
+              if (accepted == nullptr) {
                 // yes: space
                 if (IS_SPACE(c) || IS_EOL(c)) {
                   m_Stream.ungetc(c);
@@ -282,7 +282,7 @@ namespace LibSL {
                   return (m_StringBuffer.raw());
                 }
               } else {
-                if (strchr(accepted, c) == NULL) {
+                if (strchr(accepted, c) == nullptr) {
                   // not one of the accepted char
                   m_Stream.ungetc(c);
                   m_StringBuffer[bufpos++] = '\0';
@@ -291,7 +291,7 @@ namespace LibSL {
               }
             } else {
               // yes: user given stopper
-              if (strchr(eos,c) != NULL) {
+              if (strchr(eos,c) != nullptr) {
                 m_Stream.ungetc(c);
                 m_StringBuffer[bufpos++] = '\0';
                 return (m_StringBuffer.raw());
@@ -302,7 +302,7 @@ namespace LibSL {
           m_StringBuffer[bufpos++] = static_cast<char>(c);
         } while ( ! m_Stream.eof() );
         sl_assert(false); 
-        return (NULL);
+        return (nullptr);
       }
 
       char *readUntil(const char *eos)
@@ -320,7 +320,7 @@ namespace LibSL {
             return (m_StringBuffer.raw());
           } else {
             // yes: user given stopper
-            if (strchr(eos,c) != NULL) {
+            if (strchr(eos,c) != nullptr) {
               m_Stream.ungetc(c);
               m_StringBuffer[bufpos++] = '\0';
               return (m_StringBuffer.raw());
@@ -330,7 +330,7 @@ namespace LibSL {
           m_StringBuffer[bufpos++] = c;
         } while ( ! m_Stream.eof() );
         sl_assert(false); 
-        return (NULL);
+        return (nullptr);
       }
 
       bool reachString(const char *str,const char *eos=" ")
@@ -346,7 +346,7 @@ namespace LibSL {
 
       float       readFloat()
       {
-        const char *str = readString(NULL,"0123456789.-+e");
+        const char *str = readString(nullptr,"0123456789.-+e");
         return float(atof(str));
       }
 
@@ -395,7 +395,7 @@ namespace LibSL {
         int len = (int)strlen(str);
 		// left trim
 		ForIndex(i,len) {
-			if (strchr(charList,str[i]) != NULL ) {
+      if (strchr(charList,str[i]) != nullptr ) {
 				start ++;
 			} else {
 				break;
@@ -404,7 +404,7 @@ namespace LibSL {
 		// right trim
 		int i = len - 1;
 		while (i >= 0) {
-			if (strchr(charList,str[i]) != NULL ) {
+      if (strchr(charList,str[i]) != nullptr ) {
 				str[i] = '\0';
 			}
 			i --;

@@ -64,7 +64,7 @@ void NAMESPACE::MVF::addAttribute(const Attribute& a)
   if (!a.isValid()) {
     throw Fatal("MVF::addAttribute - adding a non-valid attribute!");
   }
-  if (findAttributeByBinding(a.binding) != NULL) {
+  if (findAttributeByBinding(a.binding) != nullptr) {
     stringstream sstr;
     sstr << a.binding;
     throw Fatal("MVF::addAttribute - binding '%s' already defined in MVF",sstr.str().c_str());
@@ -79,7 +79,7 @@ const MVF::Attribute *NAMESPACE::MVF::findAttributeByBinding(e_Binding b) const
 {
   std::map<e_Binding,int>::const_iterator A = m_AttributesByBinding.find(b);
   if (A == m_AttributesByBinding.end()) {
-    return NULL;
+    return nullptr;
   } else {
     return &(m_Attributes[A->second]);
   }
@@ -89,12 +89,12 @@ const MVF::Attribute *NAMESPACE::MVF::findAttributeByBinding(e_Binding b) const
 
 void NAMESPACE::MVF::convertVertexFrom(void *dst,const void *src,const MVF *srcmvf) const
 {
-  sl_assert(dst    != NULL);
-  sl_assert(src    != NULL);
-  sl_assert(srcmvf != NULL);
+  sl_assert(dst    != nullptr);
+  sl_assert(src    != nullptr);
+  sl_assert(srcmvf != nullptr);
   ForIndex(i,m_Attributes.size()) {
     const Attribute *a = srcmvf->findAttributeByBinding( m_Attributes[i].binding );
-    if (a != NULL) {
+    if (a != nullptr) {
       // attribute is present in source mvf
       // -> copy data
       memcpy((uchar*)dst + m_Attributes[i].offset,(const uchar *)src + a->offset,min(m_Attributes[i].size_of,a->size_of) );
@@ -107,7 +107,7 @@ void NAMESPACE::MVF::convertVertexFrom(void *dst,const void *src,const MVF *srcm
 v3f *NAMESPACE::MVF::pos3(void *data)
 {
   const Attribute *a = findAttributeByBinding( Position );
-  if (a == NULL) {
+  if (a == nullptr) {
     throw Fatal("MVF::pos3 - no position in MVF");
   }
   if (a->numComponents != 3) {
@@ -124,7 +124,7 @@ v3f *NAMESPACE::MVF::pos3(void *data)
 const v3f *NAMESPACE::MVF::pos3(const void *data) const
 {
   const Attribute *a = findAttributeByBinding( Position );
-  if (a == NULL) {
+  if (a == nullptr) {
     throw Fatal("MVF::pos3 - no position in MVF");
   }
   if (a->numComponents != 3) {
@@ -141,7 +141,7 @@ const v3f *NAMESPACE::MVF::pos3(const void *data) const
 void *NAMESPACE::MVF::attr(void *data,MVF::e_Type type,MVF::e_Binding binding,uint nComp)
 {
 	const Attribute *a = findAttributeByBinding( binding );
-	if (a == NULL) {
+  if (a == nullptr) {
 		throw Fatal("MVF::attr - attribute not found in MVF");
 	}
     sl_assert(a->binding == binding);
@@ -159,7 +159,7 @@ void *NAMESPACE::MVF::attr(void *data,MVF::e_Type type,MVF::e_Binding binding,ui
 bool NAMESPACE::MVF::hasAttr(MVF::e_Type type,MVF::e_Binding binding,uint nComp)
 {
 	const Attribute *a = findAttributeByBinding( binding );
-	if (a == NULL) {
+  if (a == nullptr) {
 		return false;
 	}
 	sl_assert(a->binding == binding);

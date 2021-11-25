@@ -211,7 +211,7 @@ namespace LibSL {
     template <class MVF_Dst,class MVF_Src> class ConvertToFormat_rec<MVF_Dst,MVF_Src,Loki::NullType>
     {
     public:
-      ConvertToFormat_rec(uchar *dst,const uchar *src) { }
+      ConvertToFormat_rec(uchar */*dst*/,const uchar */*src*/) { }
     };
 
     template <class MVF_Dst,class MVF_Src,class Head,class Tail> 

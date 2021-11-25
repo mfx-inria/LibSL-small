@@ -431,12 +431,12 @@ t_image_nfo *ReadTGAFile(const char *filename)
   FILE *fp;
   t_image_nfo *texinfo;
   struct tga_header_t header;
-  uchar *colormap = NULL;
+  uchar *colormap = nullptr;
 	fopen_s(&fp, filename, "rb");
   if (!fp)
   {
     fprintf (stderr, "error: couldn't open \"%s\"!\n", filename);
-    return NULL;
+    return nullptr;
   }
 
   /* Read header */
@@ -451,7 +451,7 @@ t_image_nfo *ReadTGAFile(const char *filename)
   if (!texinfo->pixels)
   {
     delete (texinfo);
-    return NULL;
+    return nullptr;
   }
 
   /* Read color map */
@@ -536,7 +536,7 @@ t_image_nfo *ReadTGAFile(const char *filename)
     fprintf (stderr, "error: unknown TGA image type %i!\n", header.image_type);
     delete[] (texinfo->pixels);
     delete   (texinfo);
-    texinfo = NULL;
+    texinfo = nullptr;
     break;
   }
 

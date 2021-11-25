@@ -87,11 +87,7 @@ namespace LibSL {
         m_Maxs = -std::numeric_limits<T_Type>::max();
       }
 
-      AAB(const AAB& aab)
-      {
-        m_Mins = aab.m_Mins;
-        m_Maxs = aab.m_Maxs;
-      }
+      AAB(const AAB& aab) = default;
 
       AAB(const t_Vertex& mins,const t_Vertex& maxs)
       {

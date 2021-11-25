@@ -60,13 +60,13 @@ using namespace LibSL::Math;
 //---------------------------------------------------------------------------
 
 // image format manager unique instance
-NAMESPACE::ImageFormatManager *NAMESPACE::ImageFormatManager::s_Manager=NULL;
+NAMESPACE::ImageFormatManager *NAMESPACE::ImageFormatManager::s_Manager=nullptr;
 
 //---------------------------------------------------------------------------
 
 NAMESPACE::ImageFormatManager *NAMESPACE::ImageFormatManager::getUniqueInstance()
 {
-  if (s_Manager==NULL) {
+  if (s_Manager==nullptr) {
     s_Manager=new ImageFormatManager();
   }
   return (s_Manager);
@@ -118,7 +118,7 @@ NAMESPACE::Image *NAMESPACE::loadImage(const char *fname)
   NAMESPACE::ImageFormatManager&
     manager=(*NAMESPACE::ImageFormatManager::getUniqueInstance());
   const char *pos=strrchr(fname,'.');
-  if (pos == NULL) {
+  if (pos == nullptr) {
     LIBSL_FATAL_ERROR_WITH_ARGS("Image - Cannot determine file type ('%s')",fname);
   }
   return (manager.getPlugin(pos+1)->load(fname));
@@ -131,7 +131,7 @@ void NAMESPACE::saveImage(const char *fname,const NAMESPACE::Image *img)
   NAMESPACE::ImageFormatManager&
     manager=(*NAMESPACE::ImageFormatManager::getUniqueInstance());
   const char *pos=strrchr(fname,'.');
-  if (pos == NULL) {
+  if (pos == nullptr) {
     LIBSL_FATAL_ERROR_WITH_ARGS("Image - Cannot determine file type ('%s')",fname);
   }
   manager.getPlugin(pos+1)->save(fname,img);

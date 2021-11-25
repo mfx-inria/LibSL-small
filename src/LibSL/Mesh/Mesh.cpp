@@ -72,13 +72,13 @@ using namespace std;
 //---------------------------------------------------------------------------
 
 // Mesh format manager unique instance
-NAMESPACE::TriangleMeshFormatManager *NAMESPACE::TriangleMeshFormatManager::s_Manager=NULL;
+NAMESPACE::TriangleMeshFormatManager *NAMESPACE::TriangleMeshFormatManager::s_Manager=nullptr;
 
 //---------------------------------------------------------------------------
 
 NAMESPACE::TriangleMeshFormatManager *NAMESPACE::TriangleMeshFormatManager::getUniqueInstance()
 {
-  if (s_Manager == NULL) {
+  if (s_Manager == nullptr) {
     s_Manager = new TriangleMeshFormatManager();
   }
   return (s_Manager);
@@ -151,7 +151,7 @@ NAMESPACE::TriangleMesh *NAMESPACE::loadTriangleMesh(const char *fname)
   NAMESPACE::TriangleMeshFormatManager&
     manager=(*NAMESPACE::TriangleMeshFormatManager::getUniqueInstance());
   const char *pos=strrchr(fname,'.');
-  if (pos == NULL) {
+  if (pos == nullptr) {
     LIBSL_FATAL_ERROR_WITH_ARGS("TriangleMesh - Cannot determine file type ('%s')",fname);
   }
   return (manager.getPlugin(pos+1)->load(fname));
@@ -164,7 +164,7 @@ void NAMESPACE::saveTriangleMesh(const char *fname,const NAMESPACE::TriangleMesh
   NAMESPACE::TriangleMeshFormatManager&
     manager=(*NAMESPACE::TriangleMeshFormatManager::getUniqueInstance());
   const char *pos=strrchr(fname,'.');
-  if (pos == NULL) {
+  if (pos == nullptr) {
     LIBSL_FATAL_ERROR_WITH_ARGS("TriangleMesh - Cannot determine file type ('%s')",fname);
   }
   manager.getPlugin(pos+1)->save(fname,mesh);
