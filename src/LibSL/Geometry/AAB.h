@@ -61,10 +61,8 @@ namespace LibSL {
   namespace Geometry {
 
     /*!
-
-    \class AAB
-    \brief Axis Aligned Box
-
+     * @class AAB
+     * @brief Axis Aligned Box
     */
     template <uint T_NumDim,typename T_Type = float>
     class AAB
@@ -82,12 +80,12 @@ namespace LibSL {
 
       //! Build an empty AAB
       AAB()
-      {
-        m_Mins = std::numeric_limits<T_Type>::max();
-        m_Maxs = -std::numeric_limits<T_Type>::max();
-      }
+        : m_Mins(std::numeric_limits<T_Type>::max()),
+          m_Maxs(std::numeric_limits<T_Type>::min())
+      {}
 
       AAB(const AAB& aab) = default;
+      AAB& operator=(const AAB& aab) = default;
 
       AAB(const t_Vertex& mins,const t_Vertex& maxs)
       {

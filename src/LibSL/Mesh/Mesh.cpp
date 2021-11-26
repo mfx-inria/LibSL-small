@@ -287,7 +287,7 @@ void NAMESPACE::TriangleMesh::mergeVertices(float radius,uint)
   // merge points close to each others
   int left = 0;
   int right = 0;
-  float avg_wnd_sz = 0;
+//  float avg_wnd_sz = 0;
   Console::progressTextInit(numv);
   ForIndex(v,numv) {
     Console::progressTextUpdate();
@@ -301,7 +301,7 @@ void NAMESPACE::TriangleMesh::mergeVertices(float radius,uint)
     while (right< numv-1 && dot(posAt( allverts[right].second ),dM) < dot(posA,dM)+radius) {
       right ++;
     }
-    avg_wnd_sz += (right - left) + 1;
+//    avg_wnd_sz += (right - left) + 1;
     // cerr << left << ',' << right << endl;
     // gather all in secondary window
     // for each within window, test
